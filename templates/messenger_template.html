@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="{{ style.language }}">
+<head>
+  <meta charset="UTF-8">
+  <title>Messenger Chat - {{ period_title }}</title>
+  <style>
+    :root {
+      --bg-color: {{ style.bg_color }};
+      --sent-bg: {{ style.sent_bubble_color }};
+      --sent-text: {{ style.sent_text_color }};
+      --received-bg: {{ style.received_bubble_color }};
+      --received-text: {{ style.received_text_color }};
+      --accent-color: {{ style.accent_color }};
+      --avatar-bg: {{ style.avatar_bg_color }};
+      --muted-text: {{ style.muted_text_color }};
+      --divider-bg: {{ style.divider_bg_color }};
+      --font-family: {{ font_family_css }};
+      --font-size: {{ style.font_size_pt }}pt;
+      --bubble-radius: {{ style.bubble_radius_px }}px;
+      --max-bubble-width: {{ style.max_bubble_width_pct }}%;
+    }
+
+    @page {
+      size: {{ style.page_size }}{{ ' landscape' if style.landscape else '' }};
+      margin: {{ style.margin_mm }}mm;
+      background-color: var(--bg-color);
+      @bottom-right { content: none !important; }
+      @bottom-center { content: none !important; }
+      @bottom-left { content: none !important; }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    html {
+      background-color: var(--bg-color);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background: var(--bg-color) !important;
+      background-color: var(--bg-color) !important;
+      color: var(--received-text);
+      font-size: var(--font-size);
+      line-height: 1.38;
+    }
+
+    /* Document Header */
+    .cover-header {
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      margin-top: 0;
+      margin-bottom: {{ '12px' if style.compact_mode else '20px' }};
+      padding-top: 4px;
+      padding-bottom: {{ '10px' if style.compact_mode else '14px' }};
+      border-bottom: 2px solid var(--accent-color);
+      page-break-after: avoid;
+      break-after: avoid;
+      clear: both;
+      display: block;
+      width: 100%;
+      background: transparent !important;
+      overflow: hidden;
+    }
+
+    .cover-header h1 {
+      font-size: calc(var(--font-size) * 1.75);
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--accent-color) !important;
+      margin: 0 0 4px 0;
+      padding: 0;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .cover-header p {
+      font-size: calc(var(--font-size) * 0.92);
+      color: var(--muted-text) !important;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      margin: 0;
+      padding: 0;
+      display: block;
+    }
+
+    .chat-container {
+      display: block;
+      width: 100%;
+      padding: 0 0 16px 0;
+      clear: both;
+      position: relative;
+      z-index: 1;
+      background: transparent !important;
+    }
+
+    /* Date Divider */
+    .date-divider {
+      text-align: center;
+      margin: {{ '10px 0 6px 0' if style.compact_mode else '16px 0 10px 0' }};
+      page-break-after: avoid;
+      break-after: avoid;
+      clear: both;
+      background: transparent !important;
+    }
+
+    .date-divider span {
+      display: inline-block;
+      font-size: calc(var(--font-size) * 0.82);
+      font-weight: 700;
+      color: var(--muted-text);
+      background-color: var(--divider-bg);
+      border: 1px solid rgba(128, 128, 128, 0.2);
+      padding: 4px 14px;
+      border-radius: 12px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    /* Message Row Wrapper */
+    .message-row {
+      display: flex;
+      width: 100%;
+      margin-bottom: {{ '4px' if style.compact_mode else '8px' }};
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+      position: relative;
+      clear: both;
+      background: transparent !important;
+    }
+
+    .message-row.same-group {
+      margin-bottom: {{ '2px' if style.compact_mode else '4px' }};
+    }
+
+    .message-row.sent {
+      justify-content: flex-end;
+    }
+
+    .message-row.received {
+      justify-content: flex-start;
+      align-items: flex-end;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--avatar-bg) !important;
+      color: #ffffff !important;
+      font-size: calc(var(--font-size) * 0.9);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      margin-bottom: {{ '4px' if not style.show_timestamps else '12px' }};
+      flex-shrink: 0;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-placeholder {
+      width: 26px;
+      margin-right: 8px;
+      flex-shrink: 0;
+      background: transparent !important;
+    }
+
+    /* Bubble Wrapper */
+    .bubble-wrapper {
+      max-width: var(--max-bubble-width);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: transparent !important;
+    }
+
+    .message-row.sent .bubble-wrapper {
+      align-items: flex-end;
+      margin-left: auto;
+    }
+
+    .message-row.received .bubble-wrapper {
+      align-items: flex-start;
+      margin-right: auto;
+    }
+
+    /* Sender Name Label */
+    .sender-label {
+      font-size: calc(var(--font-size) * 0.78);
+      font-weight: 600;
+      color: var(--muted-text);
+      margin-bottom: 2px;
+      padding: 0 6px;
+    }
+
+    /* Message Bubbles */
+    .bubble {
+      padding: {{ '5px 10px' if style.compact_mode else '8px 12px' }};
+      font-size: var(--font-size);
+      line-height: 1.38;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      position: relative;
+      max-width: 100%;
+      border-radius: var(--bubble-radius);
+    }
+
+    .message-row.sent .bubble {
+      background: var(--sent-bg) !important;
+      background-color: var(--sent-bg) !important;
+      color: var(--sent-text) !important;
+    }
+
+    .message-row.received .bubble {
+      background: var(--received-bg) !important;
+      background-color: var(--received-bg) !important;
+      color: var(--received-text) !important;
+      border: 1px solid rgba(128, 128, 128, 0.16) !important;
+    }
+
+    .bubble-text {
+      white-space: pre-wrap;
+    }
+
+    /* Media / Photos in Chat */
+    .chat-media {
+      margin-top: 6px;
+      max-width: 100%;
+      border-radius: calc(var(--bubble-radius) * 0.6);
+      overflow: hidden;
+    }
+
+    .chat-media img {
+      max-width: 220px;
+      max-height: 220px;
+      border-radius: calc(var(--bubble-radius) * 0.5);
+      display: block;
+    }
+
+    /* Message Timestamp */
+    .msg-time {
+      font-size: calc(var(--font-size) * 0.72);
+      color: var(--muted-text);
+      margin-top: 2px;
+      margin-bottom: {{ '1px' if style.compact_mode else '4px' }};
+      padding: 0 4px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .message-row.sent .msg-time {
+      text-align: right;
+    }
+
+    .message-row.received .msg-time {
+      text-align: left;
+    }
+
+    /* Emoji Reactions */
+    .reactions-container {
+      display: inline-block !important;
+      background: var(--bg-color) !important;
+      background-color: var(--bg-color) !important;
+      border: 1px solid rgba(128, 128, 128, 0.3) !important;
+      border-radius: 12px;
+      padding: 2px 7px;
+      margin-top: -6px;
+      margin-bottom: 2px;
+      z-index: 5;
+      position: relative;
+      line-height: 1;
+    }
+
+    .message-row.sent .reactions-container {
+      margin-right: 6px;
+    }
+
+    .message-row.received .reactions-container {
+      margin-left: 6px;
+    }
+
+    .reaction-item {
+      font-size: calc(var(--font-size) * 0.92);
+      line-height: 1;
+      display: inline;
+      background: transparent !important;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+
+  {% if style.show_header %}
+  <div class="cover-header">
+    <h1>{{ period_title }}</h1>
+    <p>
+      {{ chat_heading }}
+      {% if style.custom_subtitle %}
+        &bull; {{ style.custom_subtitle }}
+      {% endif %}
+      {% if style.show_message_count %}
+        &bull; {{ message_count }} {{ messages_label }}
+      {% endif %}
+    </p>
+  </div>
+  {% endif %}
+
+  <div class="chat-container">
+    {% for item in items %}
+      {% if item.type == 'divider' and style.show_date_dividers %}
+        <div class="date-divider">
+          <span>{{ item.text }}</span>
+        </div>
+      {% elif item.type == 'message' %}
+        {% set is_me = is_primary_sender(item.msg.sender, primary_sender) %}
+        <div class="message-row {{ 'sent' if is_me else 'received' }}{{ ' same-group' if not item.is_last_in_group else '' }}">
+          
+          {% if not is_me and style.show_avatars %}
+            {% if item.show_avatar %}
+              <div class="avatar" title="{{ item.msg.sender }}">
+                {% if avatar_url %}
+                  <img src="{{ avatar_url }}" alt="{{ item.msg.sender }}">
+                {% else %}
+                  {{ item.msg.sender[:1] }}
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="avatar-placeholder"></div>
+            {% endif %}
+          {% endif %}
+
+          <div class="bubble-wrapper">
+            {% if style.show_sender_names and not is_me and item.is_first_in_group %}
+              <div class="sender-label">{{ item.msg.sender }}</div>
+            {% endif %}
+
+            <div class="bubble">
+              {% if item.msg.text %}
+                <div class="bubble-text">{{ item.msg.text }}</div>
+              {% endif %}
+
+              {% if style.show_photos %}
+                {% for photo in item.msg.photos %}
+                  <div class="chat-media">
+                    <img src="{{ photo }}" alt="Attachment">
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+
+            {% if style.show_reactions and item.msg.reactions %}
+              <div class="reactions-container">
+                {% for r in item.msg.reactions %}
+                  <span class="reaction-item" title="{{ r.actor }}">{{ r.emoji }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if style.show_timestamps %}
+              <div class="msg-time">{{ item.formatted_time }}</div>
+            {% endif %}
+          </div>
+
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</body>
+</html>

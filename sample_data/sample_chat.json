@@ -1,0 +1,86 @@
+{
+  "participants": [
+    {
+      "name": "Alex Rivera"
+    },
+    {
+      "name": "Sam Carter"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Sam Carter",
+      "timestamp": "2025-06-12 11:25:10",
+      "content": "Hey Alex! 👋 How's your week going so far?"
+    },
+    {
+      "sender_name": "Alex Rivera",
+      "timestamp": "2025-06-12 11:27:03",
+      "content": "Doing great! I've been working on a tool to export our Messenger chat history into printable PDF booklets. 🚀",
+      "reactions": [
+        {
+          "reaction": "😍",
+          "actor": "Sam Carter"
+        }
+      ]
+    },
+    {
+      "sender_name": "Sam Carter",
+      "timestamp": "2025-06-12 11:28:45",
+      "content": "Wait, really? That's such a cool idea! Can you customize the colors and fonts too? ✨",
+      "reactions": [
+        {
+          "reaction": "❤️",
+          "actor": "Alex Rivera"
+        }
+      ]
+    },
+    {
+      "sender_name": "Alex Rivera",
+      "timestamp": "2025-06-12 11:30:12",
+      "content": "Yes! You can pick from preset themes like Classic Messenger Blue, Rose Pink, Dark Mode, or Warm Sepia Book—or pick any custom colors you want. 🎨"
+    },
+    {
+      "sender_name": "Alex Rivera",
+      "timestamp": "2025-06-12 11:31:00",
+      "content": "It also supports emojis, reactions, custom page sizes (A5, A4, Letter), and splits everything neatly by month or year.",
+      "reactions": [
+        {
+          "reaction": "🔥",
+          "actor": "Sam Carter"
+        }
+      ]
+    },
+    {
+      "sender_name": "Sam Carter",
+      "timestamp": "2025-06-15 18:40:22",
+      "content": "Are we still on for coffee and book shopping this evening? ☕📚"
+    },
+    {
+      "sender_name": "Alex Rivera",
+      "timestamp": "2025-06-15 18:42:05",
+      "content": "Definitely! Let's meet at the corner café at 6:30 PM. See you there!"
+    },
+    {
+      "sender_name": "Sam Carter",
+      "timestamp": "2025-07-01 09:15:00",
+      "content": "Happy July! ☀️ Ready for our summer road trip next week?"
+    },
+    {
+      "sender_name": "Alex Rivera",
+      "timestamp": "2025-07-01 09:18:22",
+      "content": "Can't wait! The route along the coast looks incredible 🏖️🌊",
+      "reactions": [
+        {
+          "reaction": "🙌",
+          "actor": "Sam Carter"
+        }
+      ]
+    },
+    {
+      "sender_name": "Sam Carter",
+      "timestamp": "2025-07-01 09:20:40",
+      "content": "I'll pack the camera and playlist. We're going to have the best time! 📸🎶"
+    }
+  ]
+}
