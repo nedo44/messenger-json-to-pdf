@@ -61,10 +61,10 @@ streamlit run app.py
 ```
 
 Open `http://localhost:8501` in your browser:
-1. Upload one or more Messenger `.json` files, point to a local folder, or click **✨ Load Sample Conversation**.
+1. Upload one or more Messenger `.json` files, point to a local folder, or click **Load Sample Conversation**.
 2. Use the left sidebar to customize the **Theme Preset**, **Colors**, **Page Size**, **Typography**, and **Visible Elements**.
-3. Preview your design instantaneously in the **👀 Live Appearance Preview** tab.
-4. Switch to **🖨️ Generate & Download PDFs** to export individual PDFs or download a complete `.zip` archive.
+3. Preview your design instantaneously in the **Live Appearance Preview** tab.
+4. Switch to **Generate & Download PDFs** to export individual PDFs or download a complete `.zip` archive.
 
 ---
 
