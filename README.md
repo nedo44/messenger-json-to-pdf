@@ -6,7 +6,7 @@ Turn your exported Facebook Messenger JSON chat archives into customizable, prin
 
 ## Features
 
-- **🎨 Rich Visual Customization**:
+- **Rich Visual Customization**:
   - **6 Built-in Theme Presets**:
     - `messenger_blue` — Classic Messenger Blue
     - `messenger_love` — Rose & Magenta
@@ -16,16 +16,16 @@ Turn your exported Facebook Messenger JSON chat archives into customizable, prin
     - `monochrome` — Minimalist B&W (Ink Saver)
   - **Custom Color Pickers**: Customize page background, sent/received bubble colors, text colors, header accents, and avatar badges.
   - **Typography & Bubble Controls**: Choose between Sans-Serif, Classic Serif, Rounded, or Monospace fonts; adjust font size (`pt`), bubble corner radius (`px`), maximum bubble width (`%`), and toggle **Compact Spacing Mode**.
-- **📐 Flexible Page & Print Layouts**:
+- **Flexible Page & Print Layouts**:
   - Supports **A5** (ideal for printed booklets), **A4**, **Letter**, and **A6** formats in **Portrait** or **Landscape** orientation.
   - Adjustable page margins (`mm`) and automatic page numbering.
   - Smart print pagination (`break-inside: avoid`) ensures chat bubbles are never sliced in half across page breaks.
   - Split output PDFs by **Month** (`Messenger_2025_06.pdf`), by **Year** (`Messenger_2025.pdf`), or export as a **Single Combined PDF**.
-- **👁️ Granular Element Toggles & Localization**:
+- **Granular Element Toggles & Localization**:
   - Show or hide the cover header, message count, date dividers, sender avatars, sender names above bubbles (great for group chats), timestamps (24h or 12h AM/PM), emoji reactions, attached photos, and page numbers.
   - Upload a custom avatar image or automatically display sender initials.
   - Multi-language support for month names and date dividers (**English**, **Czech**, **German**, **Spanish**, **French**).
-- **🛠️ Smart JSON Parser**:
+- **Smart JSON Parser**:
   - Supports native Facebook Messenger JSON exports (`message_1.json`, `message_2.json`, etc.) as well as simplified custom JSON schemas.
   - Automatically repairs Facebook's notorious Latin-1 / UTF-8 mojibake encoding so international characters and emojis (`❤️`, `😍`, `🔥`) render accurately.
   - Merges multiple JSON files and sorts messages chronologically with optional date range filtering.
